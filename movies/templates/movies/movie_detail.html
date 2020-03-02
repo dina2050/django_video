@@ -1,0 +1,45 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% if perms.movie.view_movie %}
+<h1>{{movie.title}}</h1>
+<h3>{{movie.actors}}</h3>
+<p>{{movie.synopsis}}</p>
+{% else %}
+
+{% endif %}
+
+<button type="button" class="btn btn-outline-danger border-0" data-toggle="modal" data-target="#exampleModal">
+        
+    <a href="{%url 'movie_delete' movie.id %}">Delete</a></button>
+    <a href="{%url 'movie_rent' movie.id %}">Rent</a>
+    {% if movie.is_rented %}
+    <p>Reservé</p>
+    {% else %}
+   <p>Disponible</p>
+    {% endif %}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'movie_delete' movie.id %}">{% csrf_token %}
+                        {{ form.as_p }}
+
+                        <p>Are you sure you want to delete ?</p>
+                        <input class="btn btn-outline-success p-2 border-0" type="submit" value="Confirm">
+                        <a href="{% url 'movie_detail' movie.id %}"
+                            class="btn btn-outline-danger p-2 border-0">Cancel</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

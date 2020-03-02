@@ -1,0 +1,50 @@
+
+{% load i18n %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+   
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item ">
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% if settings.USE_I18N and languages|length > 1 %}
+          <form action="{% url 'set_language' %}" method="post" class="navbar-form navbar-right"></form>
+          {% csrf_token %}
+          <div class="form-group">
+            <select name="language" class="form-control" onchange="this.form.submit()">
+              {% for language in languages %}
+              <option value="{{ language.code }}">
+              {% if language.code == LANGUAGE_CODE %}selected="selected"{% endif %}>
+              <a class="nav-link" href="{% url 'homepage'%}"></a>
+            </option>
+            {% endfor %}
+          <!-- <option><a class="nav-link" href="{% url 'homepage'%}"></a></option> -->
+        </select>
+      </div>
+    </form>
+    {% endif %}
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'homepage'%}">{% trans "Homepage"%}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'userena_profile_list'%}">{% trans "Clients"%}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'userena_signin'%}">{% trans "Connexion"%}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'userena_signup'%}">{% trans "S'inscrire"%}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'movie_list' %}">Movies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'movierent_list'%}">Rented</a>
+          </li>
+      </ul>
+    </div>
+  </nav>

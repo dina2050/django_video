@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+{% block content %} 
+<ul>
+    {% for movie in object_list %} 
+   
+    <a href="{% url 'movie_detail' movie.id %}"><li>{{movie.title}}</li></a>
+    
+    {% endfor %}
+</ul>
+{% endblock %}

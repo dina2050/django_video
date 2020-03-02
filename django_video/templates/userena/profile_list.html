@@ -1,0 +1,57 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2 class="text-center mb-5">{% trans 'OUR CUSTOMERS' %}</h2>{% endblock %}
+
+{% block content %}
+<div class="row">
+  {% for profile in profile_list %}
+  <div class="col-4">
+    <p> 
+      <button class="btn btn-primary px-5" type="button" data-toggle="collapse" data-target="{{ profile.id }}" aria-expanded="false" aria-controls="{{ profile.id }}">
+        {{ profile.user.username }}
+      </button>
+    </p>
+    <div class="collapse" id="{{ profile.id }}">
+      <div class="card card-body">
+        <div class="card mb-3" >
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <a href="{% url 'userena_profile_detail' profile.user.username %} " class="mr-3"> <img src="{{ profile.get_mugshot_url }}" class="card-img" alt="..."></a>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <a href="{% url 'userena_profile_detail' profile.user.username %}"><h5 class="card-title">{{ profile.user.username }}</h5></a>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+{% if is_paginated %}
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="{% url 'userena_profile_list_paginated' page_obj.previous_page_number %}">{% trans 'previous' %}</a>
+    {% endif %}
+
+    <span class="current">
+      {% blocktrans with page_obj.number as page and page_obj.paginator.num_pages as num_pages %}
+      Page {{ page }} of {{ num_pages }}
+      {% endblocktrans %}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="{% url 'userena_profile_list_paginated'  page_obj.next_page_number %}">{% trans 'next' %}</a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}
+{% endblock %}

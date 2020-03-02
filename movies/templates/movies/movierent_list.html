@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+{% block content %} 
+<ul>
+    {% for rented in movierent_list %} 
+   
+    <a href="#"><li>{{rented.movie}}</li></a> 
+    {% if rented.date_retur %}
+    Rendu le {{rented.date_retur}}
+    {% else %}
+    
+    <a href="{% url 'movie_return' rented.id %}" class = "btn">RETOUR OK</a>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endblock %}
